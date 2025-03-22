@@ -1,0 +1,38 @@
+{
+    "name": "mrohmani/excel-joiner",
+    "description": "Package to combine mutiple excel file easily",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mrohmani\\ExcelJoiner\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "M Rohmani",
+            "email": "rohmanie55@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "laravel/framework": "^8.0|^9.0|^10.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mrohmani\\ExcelJoiner\\ExcelJoinerServiceProvider"
+            ],
+            "aliases": {
+                "ExcelJoiner": "Mrohmani\\ExcelJoiner\\ExcelJoiner"
+            }
+        }
+    },
+    "bin": [
+        "bin/exceljoinrow",
+        "bin/exceljoinsheet"
+    ]
+}
