@@ -8,13 +8,12 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class ExcelJoiner
 {
     protected $binaryPath;
-    protected $joinType;
 
-    public function __construct($joinType="sheet")
+    public function __construct()
     {
-        $this->binaryPath = "vendor/bin/exceljoin$joinType";
+        $this->binaryPath = "vendor/bin/exceljoin";
 
-        $fallbackPath = __DIR__ . '/../bin/exceljoin' . $joinType;
+        $fallbackPath = __DIR__ . '/../bin/exceljoin';
         if (is_executable($fallbackPath)) {
             $this->binaryPath = $fallbackPath;
         } else {
@@ -22,17 +21,23 @@ class ExcelJoiner
         }
     }
 
-    public function execute($sourcePath, $outputPath): string
+    public function execute($sourcePath, $outputPath, $joinType='sheet'): string
     {
-        if (!is_dir($sourcePath)) {
-            throw new \InvalidArgumentException("Output directory does not exist: {$sourcePath}");
+        if(is_array($sourcePath)){
+            $sourcePath = json_encode($sourcePath);
         }
 
-        if (!$this->hasExcelFiles($sourcePath)) {
-            throw new \InvalidArgumentException("Source path does not contain any Excel files: {$sourcePath}");
+        if(json_decode($sourcePath) == null){
+            if (!is_dir($sourcePath)) {
+                throw new \InvalidArgumentException("Output directory does not exist: {$sourcePath}");
+            }
+
+            if (!$this->hasExcelFiles($sourcePath)) {
+                throw new \InvalidArgumentException("Source path does not contain any Excel files: {$sourcePath}");
+            }
         }
 
-        $process = new Process([$this->binaryPath, $sourcePath, $outputPath]);
+        $process = new Process([$this->binaryPath, $sourcePath, $outputPath, $joinType]);
         $process->run();
 
         if (!$process->isSuccessful()) {

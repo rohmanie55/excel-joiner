@@ -32,7 +32,6 @@
         }
     },
     "bin": [
-        "bin/exceljoinrow",
-        "bin/exceljoinsheet"
+        "bin/exceljoin"
     ]
 }

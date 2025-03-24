@@ -25,7 +25,7 @@ class ExcelJoinerHandler extends Command
 
         try {
             $joiner = new ExcelJoiner($type);
-            $output = $joiner->execute($sourcePath, $outputPath);
+            $output = $joiner->execute($sourcePath, $outputPath, $type);
             $this->info("Excel joiner output: " . $output);
         } catch (\Throwable $th) {
             $this->error("Error: " . $th->getMessage());
