@@ -13,6 +13,17 @@ class ExcelJoinerServiceProvider extends ServiceProvider
             $this->commands([
                 ExcelJoinerHandler::class,
             ]);
+
+            $this->publishes([
+                __DIR__ . '/../config/exceljoiner.php' => config_path('exceljoiner.php'),
+            ], self::class);
         }
+    }
+
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/exceljoiner.php', 'exceljoiner'
+        );
     }
 }

@@ -38,6 +38,7 @@ class ExcelJoiner
         }
 
         $process = new Process([$this->binaryPath, $sourcePath, $outputPath, $joinType]);
+        $process->setTimeout(app('config')->get('exceljoiner.timeout', 300));
         $process->run();
 
         if (!$process->isSuccessful()) {

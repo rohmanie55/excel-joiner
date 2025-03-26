@@ -4,6 +4,8 @@ namespace Mrohmani\ExcelJoiner\Tests;
 
 use Mrohmani\ExcelJoiner\ExcelJoiner;
 use PHPUnit\Framework\TestCase;
+use Illuminate\Config\Repository as Config;
+use Illuminate\Container\Container;
 
 class ExcelJoinerTest extends TestCase
 {
@@ -12,6 +14,14 @@ class ExcelJoinerTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+        $app = new Container();
+        Container::setInstance($app);
+
+        $app->instance('config', new Config([
+            'exceljoiner.timeout' => 300, // Set default config for test
+        ]));
+
         $this->sourcePath = __DIR__ . '/../../stubs/source';
         $this->outputPath = __DIR__ . '/../../stubs/output/output.xlsx';
 
