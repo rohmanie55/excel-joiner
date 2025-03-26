@@ -11,15 +11,33 @@ class ExcelJoiner
 
     public function __construct()
     {
-        $this->binaryPath = "vendor/bin/exceljoin";
-
-        $fallbackPath = __DIR__ . '/../bin/exceljoin';
-        if (is_executable($fallbackPath)) {
-            $this->binaryPath = $fallbackPath;
+        $os = PHP_OS_FAMILY;
+        $arch = php_uname('m');
+    
+        // Windows harus pakai .exe
+        if ($os === 'Windows') {
+            $binaryName = 'exceljoin.exe';
+        } elseif ($os === 'Darwin' && $arch === 'arm64') {
+            $binaryName = 'exceljoin-macos-arm64';
+        } elseif ($os === 'Linux' && $arch === 'x86_64') {
+            $binaryName = 'exceljoin-linux-amd64';
         } else {
-            throw new \RuntimeException("No executable binary found at {$this->binaryPath} or {$fallbackPath}");
+            throw new \RuntimeException("Unsupported OS ({$os}) or architecture ({$arch})");
+        }
+    
+        $pathsToCheck = [
+            __DIR__ . "/../bin/{$binaryName}",
+            "vendor/bin/{$binaryName}"
+        ];
+    
+        foreach ($pathsToCheck as $path) {
+            if (file_exists($path) && is_executable($path)) {
+                $this->binaryPath = realpath($path);
+                return;
+            }
         }
     }
+    
 
     public function execute($sourcePath, $outputPath, $joinType='sheet'): string
     {

@@ -30,8 +30,5 @@
                 "ExcelJoiner": "Mrohmani\\ExcelJoiner\\ExcelJoiner"
             }
         }
-    },
-    "bin": [
-        "bin/exceljoin"
-    ]
+    }
 }
