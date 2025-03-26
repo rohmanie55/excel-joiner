@@ -29,7 +29,7 @@ class ExcelJoiner
 
         if(json_decode($sourcePath) == null){
             if (!is_dir($sourcePath)) {
-                throw new \InvalidArgumentException("Output directory does not exist: {$sourcePath}");
+                throw new \InvalidArgumentException("Source directory does not exist: {$sourcePath}");
             }
 
             if (!$this->hasExcelFiles($sourcePath)) {
